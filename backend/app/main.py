@@ -59,6 +59,16 @@ def root():
         "docs": "/docs",
     }
 
+@app.get("/api/seed", tags=["Setup"])
+def trigger_seed():
+    """Temporary endpoint to seed the database."""
+    from app.utils.seed import seed_database
+    try:
+        seed_database()
+        return {"status": "success", "message": "Database seeded with sample data!"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
 
 @app.get("/health", tags=["Health"])
 def health_check():
